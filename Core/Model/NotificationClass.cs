@@ -13,6 +13,7 @@ namespace Tasker2.Core.Model
 
         [Indexed(Name = "ListingID", Order = 2, Unique = true)]
         public string Description { get; set; }
+        public string Priority{ get; set; }
         public bool IsShow { get; set; }
     }
 }
