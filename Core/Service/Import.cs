@@ -4,3 +4,6 @@ global using System.Collections.Generic;
 global using System.Linq;
 global using System.Text;
 global using System.Threading.Tasks;
+global using Tasker2.Core.Model;
+global using Tasker2.Core.Service.DataBase;
+global using Tasker2.Core.Service;
