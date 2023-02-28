@@ -12,7 +12,31 @@ namespace Tasker2.Core.Service.DataBase
         {
             connection = new SQLiteAsyncConnection(_connectionString);
             connection.CreateTableAsync<PeriodClass>().Wait();
-        }  
+        }
+
+        public async Task<List<PeriodClass>> GetListAsync()
+        {
+            try
+            {
+                return await connection.Table<PeriodClass>().ToListAsync();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<List<PeriodClass>> GetListAsync(int _id)
+        {
+            try
+            {
+                return await connection.Table<PeriodClass>().Where(x => x.TaskId == _id).ToListAsync();
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
     }
 }

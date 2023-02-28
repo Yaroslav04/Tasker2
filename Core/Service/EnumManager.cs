@@ -42,8 +42,8 @@ namespace Tasker2.Core.Service
             /*3*/"вихідні дні",
             /*4*/"день тижня",
             /*5*/"день місяця",
-            /*5*/"день в квартал",
-            /*5*/"день в рік",
+            /*6*/"день в квартал",
+            /*7*/"день в рік",
         };
 
         public static List<string> EPeriodStatus = new List<string>

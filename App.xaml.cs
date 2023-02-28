@@ -1,7 +1,4 @@
-﻿using Foundation;
-
-
-namespace Tasker2;
+﻿namespace Tasker2;
 
 public partial class App : Application
 {

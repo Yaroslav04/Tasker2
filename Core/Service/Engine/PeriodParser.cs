@@ -12,14 +12,13 @@ namespace Tasker2.Core.Service.Engine
         {
             var periodDate = _period.StartDate.Date;
             var periodType = _period.Period;
-            var inputDate = _date;
+            var inputDate = _date.Date;
+
+            if (_period == null) return false;
 
             if (periodType == null) return false;
 
-            if (periodDate < IsWorkingDayConverter(_period.IsWorkingDayAdjustment, inputDate)) return false; 
-
-       
-            if (!IsBetweenStartEndDay(_period, IsWorkingDayConverter(_period.IsWorkingDayAdjustment, inputDate)))
+            if (!IsBetweenStartEndDay(_period, inputDate))
             {
                 return false;
             }
@@ -93,13 +92,55 @@ namespace Tasker2.Core.Service.Engine
             //день місяця
             if (periodType == EnumManager.EPeriodPeriod[5])
             {
-                inputDate = IsWorkingDayConverter(_period.IsWorkingDayAdjustment, inputDate);
+                return DayOfMonth(periodDate, inputDate, 1, _period.IsWorkingDayAdjustment);
+            }
 
-                if (periodDate.Day == 28 | periodDate.Day == 29 | periodDate.Day == 30 | periodDate.Day == 31)
+            //день в квартал
+            if (periodType == EnumManager.EPeriodPeriod[6])
+            {
+                return DayOfMonth(periodDate, inputDate, 3, _period.IsWorkingDayAdjustment);
+            }
+
+            //день в півріччя
+            if (periodType == EnumManager.EPeriodPeriod[7])
+            {
+                return DayOfMonth(periodDate, inputDate, 6, _period.IsWorkingDayAdjustment);
+            }
+
+            //день в рік
+            if (periodType == EnumManager.EPeriodPeriod[8])
+            {
+                return DayOfMonth(periodDate, inputDate, 12, _period.IsWorkingDayAdjustment);
+            }
+
+            return false;
+        }
+
+        static bool DayOfMonth(DateTime _periodDate, DateTime _inputDate, int _month, bool IsWorkingDay)
+        {
+            DateTime periodDate = _periodDate;
+            DateTime inputDate = _inputDate;
+
+            int dif = (inputDate.Year - periodDate.Year) * 12;
+           
+            if (((inputDate.Month + dif) - periodDate.Month) % _month == 0)
+            {
+
+                periodDate = OverMonthConverter(periodDate, inputDate);
+
+                if (IsWorkingDay)
                 {
-                    if (DateTime.DaysInMonth(inputDate.Year, inputDate.Month) < periodDate.Day)
+                    if (inputDate.DayOfWeek == DayOfWeek.Friday)
                     {
-                        return true;
+                        if ((inputDate.AddDays(1).Day == periodDate.Day) | (inputDate.AddDays(2).Day == periodDate.Day))
+                        {
+                            return true;
+                        }
+                    }
+
+                    if (inputDate.DayOfWeek == DayOfWeek.Saturday | inputDate.DayOfWeek == DayOfWeek.Sunday)
+                    {
+                        return false;
                     }
                 }
 
@@ -111,25 +152,22 @@ namespace Tasker2.Core.Service.Engine
                 return false;
             }
 
-            //день в квартал
-            if (periodType == EnumManager.EPeriodPeriod[6])
-            {
-                DayOfMonth(_period, IsWorkingDayConverter(_period.IsWorkingDayAdjustment, inputDate), 3);
-            }
+            return false;
+        }
 
-            //день в півріччя
-            if (periodType == EnumManager.EPeriodPeriod[7])
+        static DateTime OverMonthConverter(DateTime _periodDate, DateTime _inputDate)
+        {
+            if (_periodDate.Day == 28 | _periodDate.Day == 29 | _periodDate.Day == 30 | _periodDate.Day == 31)
             {
-                DayOfMonth(_period, IsWorkingDayConverter(_period.IsWorkingDayAdjustment, inputDate), 6);
+                if (DateTime.DaysInMonth(_inputDate.Year, _inputDate.Month) < _periodDate.Day)
+                {
+                    if (_inputDate.Day == DateTime.DaysInMonth(_inputDate.Year, _inputDate.Month))
+                    {
+                        return Convert.ToDateTime($"{_inputDate.Day}.{_periodDate.Month}.{_periodDate.Year}").Date;
+                    }
+                }
             }
-
-            //день в рік
-            if (periodType == EnumManager.EPeriodPeriod[8])
-            {
-                DayOfMonth(_period, IsWorkingDayConverter(_period.IsWorkingDayAdjustment, inputDate), 12);
-            }
-
-            return false;        
+            return _periodDate;
         }
 
         static bool IsBetweenStartEndDay(PeriodClass _period, DateTime _date)
@@ -140,55 +178,6 @@ namespace Tasker2.Core.Service.Engine
             }
             return false;
         }
-
-        static bool DayOfMonth(PeriodClass _period, DateTime _date, int _month)
-        {
-            if (MonthConverter(_period.StartDate.Month + _month) == _date.Month)
-            {
-                if (_period.StartDate.Day == 28 | _period.StartDate.Day == 29 | _period.StartDate.Day == 30 | _period.StartDate.Day == 31)
-                {
-                    if (DateTime.DaysInMonth(_date.Year, _date.Month) < _period.StartDate.Day)
-                    {
-                        return true;
-                    }
-                }
-
-                if (_date.Day == _period.StartDate.Day)
-                {
-                    return true;
-                }
-            }   
-            
-            return false;
-        }
-
-        public static int MonthConverter(int _month)
-        {
-            if (_month > 12)
-            {
-                return _month - 12;
-            }
-            return _month;
-        }
-
-        public static DateTime IsWorkingDayConverter(bool _convert, DateTime _date)
-        {
-            if (_convert)
-            {
-                if (_date.DayOfWeek == DayOfWeek.Saturday)
-                {
-                     return _date.AddDays(-1);
-                }
-
-                if (_date.DayOfWeek == DayOfWeek.Wednesday)
-                {
-                    return _date.AddDays(-2);
-                }
-
-                return _date;
-            }
-
-            return _date;
-        }
     }
 }
+

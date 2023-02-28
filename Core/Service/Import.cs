@@ -7,3 +7,5 @@ global using System.Threading.Tasks;
 global using Tasker2.Core.Model;
 global using Tasker2.Core.Service.DataBase;
 global using Tasker2.Core.Service;
+global using System.Diagnostics;
+global using System.Text.RegularExpressions;
