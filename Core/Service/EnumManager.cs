@@ -54,7 +54,18 @@ namespace Tasker2.Core.Service
 
         #endregion
 
-        #region Task
+        #region Object
+
+        public static List<string> EObjectStatus = new List<string>
+        {
+            "на виконанні",
+            "виконано",
+            "пропущено"
+        };
+
+        #endregion
+
+        #region Notification
 
         public static List<string> ENotificationPriority = new List<string>
         {

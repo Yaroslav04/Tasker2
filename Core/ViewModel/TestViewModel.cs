@@ -18,18 +18,16 @@ namespace Tasker2.Core.ViewModel
 
         public async Task Run()
         {
-            await Task.Delay(2000);
-            //var period = await PopUpManager.CreateNewPeriod("тест");
-            PeriodClass period = new PeriodClass();
-            period.StartDate = Convert.ToDateTime("30.01.2023");
-            period.EndDate = Convert.ToDateTime("27.10.2024");
-            period.ControlDate = Convert.ToDateTime("27.10.2024");
-            period.IsWorkingDayAdjustment = true;
-            period.Status = EnumManager.EPeriodStatus[0];
-            period.Period = EnumManager.EPeriodPeriod[6];
-            List<PeriodClass> periods = new List<PeriodClass>();        
-            periods.Add(period);
-            await EngineAgrerator.Run(new TaskClass(), periods);
+            await Task.Delay(5000);
+            var _task = await PopUpManager.CreateNewTask();
+            await App.DataBase.TaskDB.Save(_task);
+            var task = await App.DataBase.TaskDB.GetTaskFromTask(_task);
+
+            var _period = await PopUpManager.CreateNewPeriod(task.Name, task.N);
+            await App.DataBase.PeriodDB.Save(_period);
+            var period  = App.DataBase.PeriodDB.GetPeriodFromPeriod(_period);
+
+            await EngineAgrerator.RunTasks();
         }
     }
 }

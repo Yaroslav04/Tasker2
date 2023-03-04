@@ -38,5 +38,13 @@ namespace Tasker2.Core.Service.DataBase
             }
         }
 
+        public async Task<PeriodClass> GetPeriodFromPeriod(PeriodClass _period)
+        {
+            return await connection.Table<PeriodClass>()
+                .Where(x => x.TaskId == _period.TaskId & x.StartDate == _period.StartDate
+                & x.EndDate == _period.EndDate & x.ControlDate == _period.ControlDate 
+                & x.Period == _period.Period).FirstOrDefaultAsync();
+        }
+
     }
 }

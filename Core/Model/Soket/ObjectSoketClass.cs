@@ -18,7 +18,7 @@ namespace Tasker2.Core.Model.Soket
             this.TaskId = obj.TaskId;
             this.PeriodId = obj.PeriodId;
             this.Description = obj.Description;
-            this.CreateDate = obj.CreateDate;
+            this.Date = obj.Date;
             this.Status= obj.Status;
 
             TaskSoket = task;

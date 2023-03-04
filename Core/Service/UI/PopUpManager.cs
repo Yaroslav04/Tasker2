@@ -8,11 +8,19 @@ namespace Tasker2.Core.Service.UI
 {
     public static class PopUpManager
     {
-        public static async Task<PeriodClass> CreateNewPeriod(string _taskName)
+        public static async Task<TaskClass> CreateNewTask()
+        {
+            TaskClass taskClass = new TaskClass();
+            taskClass.Name= "Test";
+            taskClass.Status = EnumManager.ETaskStatus[0];
+            return taskClass;
+        }
+
+        public static async Task<PeriodClass> CreateNewPeriod(string _taskName, int _taskId)
         {
             PeriodClass periodClass = new PeriodClass();
             string title = $"Додати період для {_taskName}";
-
+            periodClass.TaskId = _taskId;
             periodClass.Priority = await PopUpTemplate.GetElementNotNull(title, "Пріоритет", EnumManager.EPeriodPriority);
             periodClass.StartDate = Convert.ToDateTime(await PopUpTemplate.GetDate(title, "Дата початку", DateTime.Now.ToShortDateString()));
             periodClass.EndDate = Convert.ToDateTime(await PopUpTemplate.GetDate(title, "Дата закінчення", DateTime.Now.ToShortDateString()));
@@ -23,15 +31,12 @@ namespace Tasker2.Core.Service.UI
             periodClass.IsNotify = await PopUpTemplate.BoolMessage(title, "Відправляти сповіщення");
             if (periodClass.IsNotify)
             {
-                periodClass.StartTime = Convert.ToDateTime(await PopUpTemplate.GetTime(title, "Час початку сповіщення", DateTime.Now.ToShortTimeString())).TimeOfDay;
-                periodClass.StopTime = Convert.ToDateTime(await PopUpTemplate.GetTime(title, "Час закінчення сповіщення", DateTime.Now.ToShortTimeString())).TimeOfDay;
-                periodClass.Pause = Convert.ToInt32(await PopUpTemplate.GetNumber(title, "Пауза між повідолменнями"));
+                periodClass.NotificationTime = Convert.ToDateTime(await PopUpTemplate.GetTime(title, "Час сповіщення", DateTime.Now.ToShortTimeString())).TimeOfDay;
+
             }
             else
             {
-                periodClass.StartTime = TimeSpan.Zero;
-                periodClass.StopTime = TimeSpan.Zero;
-                periodClass.Pause = 0;
+                periodClass.NotificationTime = TimeSpan.Zero;
             }
 
             periodClass.Status = EnumManager.EPeriodStatus[0];

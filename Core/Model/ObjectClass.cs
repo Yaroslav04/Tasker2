@@ -8,11 +8,13 @@ namespace Tasker2.Core.Model
 {
     public class ObjectClass : TemplateClass
     {
-        public string TaskId { get; set; }
-        public string PeriodId { get; set; }
+        [Indexed(Name = "ListingID", Order = 1, Unique = true)]
+        public int TaskId { get; set; }
+        [Indexed(Name = "ListingID", Order = 2, Unique = true)]
+        public int PeriodId { get; set; }
+        [Indexed(Name = "ListingID", Order = 3, Unique = true)]
+        public DateTime Date { get; set; }
         public string Description { get; set; }
-        public DateTime CreateDate { get; set; }
-        //за замовчуванням дата створення
         public string Status { get; set; }
     }
 }
