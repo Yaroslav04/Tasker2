@@ -20,6 +20,11 @@ namespace Tasker2.Core.Service
             Regex regex = new Regex(@"^\d\d(:)\d\d$");
             return regex.IsMatch(_text);
         }
+        public static bool IsDateTimeValid(string _text)
+        {
+            Regex regex = new Regex(@"^\d\d(.)\d\d(.)\d\d\d\d( )\d\d(:)\d\d(:)\d\d$");
+            return regex.IsMatch(_text);
+        }
 
         public static bool IsNumberValid(string _text)
         {

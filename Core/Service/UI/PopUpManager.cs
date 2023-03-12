@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tasker2.Core.Model;
 
 namespace Tasker2.Core.Service.UI
 {
@@ -13,6 +14,7 @@ namespace Tasker2.Core.Service.UI
             TaskClass taskClass = new TaskClass();
             taskClass.Name= "Test";
             taskClass.Status = EnumManager.ETaskStatus[0];
+            taskClass.SaveDate= DateTime.Now;
             return taskClass;
         }
 
@@ -40,7 +42,9 @@ namespace Tasker2.Core.Service.UI
             }
 
             periodClass.Status = EnumManager.EPeriodStatus[0];
+            periodClass.SaveDate = DateTime.Now;
             return periodClass;
         }
+
     }
 }

@@ -43,7 +43,7 @@ namespace Tasker2.Core.Service.DataBase
         {
             return await connection.Table<TaskClass>()
                 .Where(x => x.Section == _task.Section & x.Type == _task.Type
-                & x.SubType == _task.SubType & x.Name == _task.Name).FirstOrDefaultAsync();
+                & x.Name == _task.Name).FirstOrDefaultAsync();
         }
     }
 }

@@ -9,7 +9,6 @@ namespace Tasker2.Core.Service
     public static class EnumManager
     {
 
-
         #region Task
 
         public static List<string> ETaskSection = new List<string>

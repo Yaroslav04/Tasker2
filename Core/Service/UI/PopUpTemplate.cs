@@ -205,6 +205,33 @@ namespace Tasker2.Core.Service.UI
 
             return result.Replace("\t", "").Replace("\n", "");
         }
+
+        public static async Task<string> GetDateTime(string _title, string _message, string _initialValue)
+        {
+            string result = string.Empty;
+            bool sw = true;
+            while (sw)
+            {
+                result = await Shell.Current.DisplayPromptAsync(_title, _message, initialValue: _initialValue);
+
+                if (String.IsNullOrWhiteSpace(result))
+                {
+                    await Shell.Current.DisplayAlert("Помилка", "Поле не може бути порожнім", "OK");
+                    continue;
+                }
+
+                if (!TextManager.IsDateTimeValid(result))
+                {
+                    await Shell.Current.DisplayAlert("Помилка", "Не вірно вказана дата та час, приклад 01.01.2020 12:00:00", "OK");
+                    continue;
+                }
+
+                sw = false;
+            }
+
+            return result.Replace("\t", "").Replace("\n", "");
+        }
+
         public static async Task<string> GetElementNotNull(string _title, string _message, List<string> list)
         {
             string result = string.Empty;

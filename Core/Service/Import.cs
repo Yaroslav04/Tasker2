@@ -9,3 +9,4 @@ global using Tasker2.Core.Service.DataBase;
 global using Tasker2.Core.Service;
 global using System.Diagnostics;
 global using System.Text.RegularExpressions;
+global using Tasker2.Core.ViewModel;

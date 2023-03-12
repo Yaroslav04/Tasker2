@@ -9,12 +9,12 @@ namespace Tasker2.Core.Model
     public class SubTypeClass : TemplateClass
     {
         [Indexed(Name = "ListingID", Order = 1, Unique = true)]
-        public string Name { get; set; }
-
+        public string Section { get; set; }
         [Indexed(Name = "ListingID", Order = 2, Unique = true)]
         public string Type { get; set; }
 
         [Indexed(Name = "ListingID", Order = 3, Unique = true)]
-        public string Section { get; set; }
+        public string Name { get; set; }
+       
     }
 }

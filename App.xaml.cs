@@ -11,7 +11,7 @@ public partial class App : Application
             {
                 dataBase = new DataBase(FileManager.Path(), new List<string> {
                     "TaskDataBase.db3", "PeriodDataBase.db3", "ObjectDataBase.db3", "TypeDataBase.db3",
-                    "SubTypeDataBase.db3", "NotificationDataBase.db3"
+                     "NotificationDataBase.db3", "NoteDataBase.db3",
                 });
             }
             return dataBase;

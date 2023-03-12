@@ -13,7 +13,7 @@ namespace Tasker2.Core.ViewModel
     {
         public TestViewModel()
         { 
-            Run();
+            //Run();
         }
 
         public async Task Run()

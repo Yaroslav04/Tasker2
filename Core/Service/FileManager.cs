@@ -10,14 +10,10 @@ namespace Tasker2.Core.Service
     {
         public static string Path()
         {
+
             if (Directory.Exists(@"/storage/emulated/0/Tasker2/"))
             {
                 return @"/storage/emulated/0/Tasker2/";
-            }
-
-            if (Directory.Exists(@"Q:\"))
-            {
-                return @"Q:\";
             }
 
             throw new ArgumentException("File system not exist");     

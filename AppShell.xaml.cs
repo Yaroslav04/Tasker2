@@ -1,9 +1,18 @@
-﻿namespace Tasker2;
+﻿
+using System.Security;
+
+namespace Tasker2;
 
 public partial class AppShell : Shell
 {
 	public AppShell()
 	{
-		InitializeComponent();
+        Run();
 	}
+
+    async Task Run()
+    {
+        InitializeComponent();
+    }
+
 }
